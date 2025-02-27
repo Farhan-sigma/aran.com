@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 	<meta charset="UTF-8">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<title>My Blog</title>
+	<style>
+ /* General Styling */
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box; /* Ensures box-sizing for consistent layout */
+ }
+ body {
+ 	font-family: Arial, sans-serif; /* Set font for the body */
+ 	background-color: #f4f4f9; /* Light gray background */
+ 	color: #333; /* Dark text color */
+ }
+ 	/* Navigation Bar */
+ 	.sticky-nav {
+ 	position: fixed; /* Keeps navigation bar fixed at the top */
+ 	top: 0;
+ 	width: 100%; /* Full width of the page */
+ 	background-color: #333; /* Dark background for the navbar */
+ 	z-index: 1000; /* Ensures navbar stays on top of other elements */
+ 	display: flex; /* Use flexbox for alignment */
+ 	justify-content: space-between; /* Space between navigation and search */
+ 	align-items: center; /* Center items vertically */
+ 	padding: 10px 20px; /* Adjust padding for spacing */
+ }
+ /* Navigation Links */
+ 	.sticky-nav ul {
+ 	display: flex;
+ 	list-style-type: none; /* Removes bullet points */
+ 	margin: 0;
+ 	padding: 0;
+ }
+ 	.sticky-nav li {
+ 	margin-right: 15px; /* Space between navigation links */
+ }
+ .sticky-nav a {
+ 	color: white;
+ 	text-decoration: none; /* Removes underline */
+ 	padding: 12px 20px; /* Adds padding around the link */
+ }
+ 	.sticky-nav a:hover {
+ 	background-color: #1abc9c; /* Hover effect with a 	different background */
+ }
+ 	/* Style the search box inside the navigation bar */
+ 	.search-container {
+ 	display: flex;
+ 	align-items: center;
+ 	margin-left: auto; /* Pushes the search bar to the right */
+ }
+ .search-container input[type="text"] {
+ 	padding: 6px;
+ 	border: none;
+ 	font-size: 17px;
+ 	border-radius: 8px;
+ 	width: 250px; /* Adjust width as needed */
+ 	outline: none; /* Removes the outline when focused */
+ }
+ /* Blog Header */
+ .blog-header {
+	 display: flex;
+	 flex-direction: column; /* Stack the text vertically */
+	 justify-content: center; /* Center vertically */
+	 align-items: center; /* Center horizontally */
+ 	position: relative; /* For positioning the GIF */
+ 	color: white;
+ 	height: 400px; /* Set the height of the header */
+ width: 100%;
+ background: #2c3e50;
+ }
+ .blog-header h1, .blog-header p {
+ 	position: relative; /* Ensure text is above the GIF */
+ 	z-index: 1; /* Make sure text appears above the GIF */
+ 	text-align: center;
+ }
+ /* Header Image (GIF) Styling */
+ 	.header-gif {
+ 	position: absolute;
+ 	top: 0;
+ 	left: 0;
+ 	width: 100%;
+ 	height: 100%;
+ 	object-fit: cover; /* Ensures the GIF covers the header area without distortion */
+ 	z-index: 0; /* Keep the GIF in the background */
+ }
+ /* Blog Header 1 */
+ .blog-header h1 {
+ 	font-size: 32px;
+ 	margin-bottom: 15px; /* Space between h1 and p */
+ }
+ .blog-header p {
+ 	font-size: 18px;
+ 	margin-top: 0;
+ }
+ /* Blog Container Layout */
+ .blog-container {
+ 	display: grid;
+ 	grid-template-columns: 1fr 1fr; /* 2 columns layout */
+ 	gap: 30px; /* Space between the columns */
+ 	padding: 30px;
+ }
+ /* Blog Post Styling */
+ .blog-post {
+ 	background: white;
+ 	padding: 20px;
+ 	border-radius: 10px;
+ 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adds shadow to blog posts */
+ }
+ .blog-post h2 {
+ 	color: #2c3e50;
+ 	margin-bottom: 15px;
+ }
+ .blog-post p {
+ 	color: #2c3e50;
+ 	text-align: justify; /* Justifies text for better readability */
+ 	margin-bottom: 15px;
+ }
+ .blog-post .short-text {
+ 	font-size: 16px;
+ 	color: #34495e;
+ 	margin-bottom: 15px;
+ }
+ .blog-post .full-text {
+ 	font-size: 16px;
+ 	color: #34495e;
+ 	margin-top: 15px;
+ }
+ /* Style for the details and summary elements */
+ details {
+ 	background-color: #f4f4f9;
+ 	border-radius: 8px;
+ 	padding: 10px;
+ 	margin-top: 15px;
+ }
+ summary {
+ 	font-size: 16px;
+ 	font-weight: bold;
+ 	color: #1abc9c;
+ 	cursor: pointer; /* Pointer cursor on hover */
+ 	padding: 5px 10px;
+ 	background-color: white;
+ 	border-radius: 8px;
+ 	display: inline-block;
+ 	width: auto;
+ 	transition: background-color 0.3s ease;
+ }
+ summary:hover {
+ 	background-color: #1abc9c;
+ 	color: white; /* Changes text color on hover */
+ }
+ details[open] summary {
+ 	background-color: #1abc9c;
+ 	color: white;
+ }
+ /* Events Section - Calendar Style */
+ #events {
+ 	text-align: center;
+ 	padding: 40px 20px;
+ 	background-color: #f9f9f9;
+ 	margin-top: 30px;
+ 	border-radius: 10px;
+ }
+ #events h2{
+ 	font-size: 28px;
+ 	margin-bottom: 20px;
+ }
+ /* Calendar Styling */
+ .calendar {
+ 	max-width: 600px;
+ 	margin: 0 auto;
+ 	background-color: white;
+ 	padding: 20px;
+ 	border-radius: 10px;
+ 	box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+ }
+ /* Month Header */
+ .month {
+ 	background-color: #2c3e50;
+ 	color: white;
+ 	padding: 10px;
+ 	font-size: 20px;
+ 	font-weight: bold;
+ 	text-align: center;
+ 	border-radius: 8px;
+ }
+ /* Days Grid */
+ .days {
+ 	display: grid;
+ 	grid-template-columns: repeat(2, 1fr); /* 2 columns */
+ 	gap: 20px;
+	 padding: 20px 0;
+	 }
+ /* Each Event Day */
+ .day {
+ 	background-color: #ffffff;
+ 	padding: 15px;
+ 	border-radius: 8px;
+ 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+ 	text-align: center;
+ 	transition: transform 0.2s ease;
+ }
+ .day:hover {
+ 	transform: scale(1.05); /* Slight zoom effect on hover */
+ }
+ /* Date Styling */
+ .date {
+ 	display: block;
+ 	font-size: 24px;
+ 	font-weight: bold;
+ 	color: #1abc9c;
+ 	margin-bottom: 10px;
+ }
+ /* Event Description */
+ .day p {
+ 	font-size: 16px;
+ 	color: #34495e;
+ 	margin-bottom: 10px;
+ }
+ /* Event Links */
+ .day a {
+ 	display: inline-block;
+ 	padding: 8px 12px;
+ 	background-color: #1abc9c;
+ 	color: white;
+ 	text-decoration: none;
+ 	border-radius: 5px;
+ 	font-size: 14px;
+ }
+ .day a:hover {
+ 	background-color: #16a085; 
+ }
+ /* FAQ Section */
+ #faq{
+ 	background-color: #f4f4f9;
+ 	padding: 10px 20px;
+ }
+ #faq h2{
+ 	font-size: 28px;
+ 	padding: 10px 20px;
+ }
+ .faq-container {
+ 	padding: 20px;
+ }
+ .faq-button {
+ 	background-color: #2c3e50;
+ 	color: white;
+ 	padding: 15px;
+ 	width: 100%;
+ 	text-align: left;
+ 	border: none;
+ 	cursor: pointer;
+	margin-bottom: 15px;
+ 	border-radius: 8px;
+ }
+ .faq-content {
+ 	display: none;
+ 	padding: 15px;
+ 	background-color: #f4f4f9;
+ }
+ .faq-button:focus + .faq-content {
+ 	display: block;
+ }
+ /* Contact Form Section */
+ #contact {
+ 	text-align: center;
+ 	padding: 20px 20px;
+ 	background-color: #f4f4f9;
+ 	margin: 20px auto;
+ 	border-radius: 10px;
+ 	max-width: 600px;
+ }
+ #contact h2{
+ 	font-size: 28px;
+ 	margin-bottom: 10px;
+ }
+ #contact p{
+ 	font-size: 20px;
+ 	margin-bottom: 20px;
+ }
+ form {
+	max-width: 500px;
+ 	margin: 0 auto;
+ 	display: flex;
+ 	flex-direction: column;
+ 	gap: 20px;
+ }
+ .form-group {
+ 	display: flex;
+ 	flex-direction: column;
+ 	align-items: flex-start;
+ }
+ .form-group label {
+ 	font-size: 16px;
+ 	font-weight: bold;
+ 	margin-bottom: 5px;
+ 	color: #2c3e50;
+ 	text-align: left;
+ 	width: 100%; /* Ensure label takes full width for alignment */
+ }
+ .form-group input,
+ .form-group textarea {
+ 	padding: 12px;
+ 	border: 2px solid #ccc;
+ 	border-radius: 8px;
+ 	font-size: 16px;
+ 	color: #34495e;
+ 	width: 100%; /* Ensure input fields and textarea take full width */
+ 	transition: border-color 0.3s ease;
+ }
+ .form-group input:focus,
+ .form-group textarea:focus {
+ 	border-color: #1abc9c;
+ 	outline: none;
+ }
+ button {
+ 	padding: 12px 25px;
+ 	background-color: #1abc9c;
+ 	color: white;
+ 	font-size: 18px;
+ 	border: none;
+ 	border-radius: 8px;
+ 	cursor: pointer;
+ 	align-self: center;
+ 	transition: background-color 0.3s ease;
+ }
+ button:hover {
+ 	background-color: #16a085;
+ }
+ /* Reflection Section */
+ #reflection {
+ 	background-color: #f9f9f9;
+ 	padding: 40px;
+ 	text-align: center;
+ 	border-radius: 10px;
+ 	margin-top: 40px;
+ }
+ #reflection h2 {
+ 	font-size: 28px;
+ 	color: #2c3e50;
+ 	margin-bottom: 10px;
+ }
+ #reflection p {
+ 	font-size: 18px;
+ 	color: #7f8c8d;
+ 	margin-bottom: 30px;
+ }
+ .reflection-prompts {
+ 	display: grid;
+ 	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+ 	gap: 20px;
+ 	margin-bottom: 20px;
+ }
+ .prompt h3 {
+ 	font-size: 20px;
+ 	color: #34495e;
+ 	margin-bottom: 10px;
+ }
+ textarea {
+ 	width: 100%;
+ 	height: 100px;
+ 	padding: 10px;
+ 	border: 2px solid #ccc;
+ 	border-radius: 8px;
+ 	resize: none;
+ 	font-size: 16px;
+ 	color: #34495e;
+ }
+ 	textarea:focus {
+ 	border-color: #1abc9c;
+ 	outline: none;
+ }
+ button {
+ 	padding: 15px 30px;
+ 	background-color: #1abc9c;
+ 	color: white;
+ 	font-size: 18px;
+ 	border: none;
+ 	border-radius: 8px;
+ 	cursor: pointer;
+ 	margin-top: 20px;
+ }
+ button:hover {
+ 	background-color: #16a085;
+ }
+ footer {
+ 	text-align: center;
+ 	padding: 20px;
+ 	background: #2c3e50;
+ 	color: white;
+ 	margin-top: 20px;
+ }
+ /* Mobile Responsiveness */
+ @media (max-width: 768px) {
+ .blog-container {
+ 	grid-template-columns: 1fr;
+ }
+ .event-card-container {
+ 	flex-direction: column;
+ }
+ .event-card {
+ 	width: 100%;
+ }
+ }
+</style>
+
+</head>
+<body>
+	<div class="sticky-nav">
+ 	<ul>
+ 	<li><a href="index.html">Home</a></li>
+ 	<li><a href="blog.html">Blog</a></li>
+ 	<li><a href="#faq">FAQ</a></li>
+ 	<li><a href="#events">Events</a></li>
+ 	<li><a href="#contact">Contact</a></li>
+ 	<li><a href="#reflection">Reflection</a></li>
+ 	</ul>
+ <div class="search-container">
+ <input type="text" placeholder="Search...">
+ </div>
+</div>
+<header class="blog-header">
+ 	<h1>AranShop</h1>
+ 	<p></p>let fine what type off acc that u need
+ 	<img src="C:\Users\user\Desktop\MyCV\background.jpeg" alt="Backdrop" class="header-gif">
+</header>
+<section class="blog-container">
+ 	<article class="blog-post">
+ 	<h2>anouncement</h2>
+ 	<p><small>takde scam</small></p>
+ 	<p class="short-text">
+ 	Untuk sekarang masih takde acc yang bagus yessir
+ 	<b>HTML and CSS</b>.
+ </p>
+ <details>
+ <summary>Read More</summary>
+ 	<p class="full-text">
+ 	-Clash of Clan(coc)
+ 	-Genshin impact
+
+ </p>
+ </details>
+ </article>
+ <article class="blog-post">
+ 	<h2>Game List</h2>
+ 	<p><small>
+ 	-Clash of Clan(coc)
+ 	-Genshin impact
+</small></p>
+ 	<p class="short-text">
+ 	Only that for now
+ </p>
+ <details>
+ 	<summary>Read More</summary>
+ <p class="full-text">
+ .....
+ </p>
+ </details>
+ </article>
+ </section>
+ 	<section id="events">
+ 	<div id="profile" class="card">
+ 	<img src="images/clash.jpeg" alt="My Profile Picture" class="profile-pic"></div>
+ 	<h2>Clash of Clan</h2>
+ 	<div class="calendar">
+ 	<div class="month">
+ 	<h3>Take a look</h3>
+ </div>
+ <div class="days">
+ <div class="day">
+ <span class="date">Acc id(SUGOI!)</span>
+ 	<p>First </p>
+ 	<details>
+ <summary>Read More</summary>
+ 	<p class="full-text">
+ 		<div id="profile" class="card">
+	<img src="images/sugoi.jpg" alt="My Profile Picture" class="profile-pic">
+	<img src="images/sugoi2.jpg" alt="My Profile Picture" class="profile-pic">
+	<img src="images/sugoi3.jpg" alt="My Profile Picture" class="profile-pic">
+	<img src="images/sugoi4.jpg" alt="My Profile Picture" class="profile-pic">
+	-Kalau berminat contact-
+	+60148430105
+
+ </p>
+ </details>
+ </div>
+ <div class="day">
+ <span class="date">12</span>
+ 	<p>Career Talk: Tech Industry</p>
+ 	<a href="#">View Details</a>
+ </div>
+ <div class="day">
+	 <span class="date">20</span>
+ 	<p>AI & Machine Learning Seminar</p>
+ 	<a href="#">View Details</a>
+ </div>
+ <div class="day">
+ 	<span class="date">28</span>
+ 	<p>Final Year Project Showcase</p>
+ 	<a href="#">View Details</a>
+ </div>
+ </div>
+ </div>
+ </section>
+ <section id="events">
+ 	<div id="profile" class="card">
+ 	<img src="images/clash.jpeg" alt="My Profile Picture" class="profile-pic"></div>
+ 	<h2>Clash of Clan</h2>
+ 	<div class="calendar">
+ 	<div class="month">
+ 	<h3>March 2025</h3>
+ </div>
+ <div class="days">
+ <div class="day">
+ <span class="date">5</span>
+ 	<p>Web Development Workshop</p>
+ 	<a href="#">View Details</a>
+ </div>
+ <div class="day">
+ <span class="date">12</span>
+ 	<p>Career Talk: Tech Industry</p>
+ 	<a href="#">View Details</a>
+ </div>
+ <div class="day">
+	 <span class="date">20</span>
+ 	<p>AI & Machine Learning Seminar</p>
+ 	<a href="#">View Details</a>
+ </div>
+ <div class="day">
+ 	<span class="date">28</span>
+ 	<p>Final Year Project Showcase</p>
+ 	<a href="#">View Details</a>
+ </div>
+ </div>
+ </div>
+ </section>
+ <section id="faq">
+ 	<h2>Frequently Asked Questions</h2>
+ 	<div class="faq-container">
+ 	<div class="faq-item">
+ 	<button class="faq-button">What inspired you to start blogging?</button>
+ 	<div class="faq-content">
+ 	<p>I wanted to document my learning journey and share knowledge with others.</p>
+ </div>
+ </div>
+ <div class="faq-item">
+ 	<button class="faq-button">What topics do you write about?</button>
+ <div class="faq-content">
+ 	<p>I write about personal experiences, study tips, and tech-related topics.</p>
+ </div>
+ </div>
+ </div>
+</section>
+<section id="contact">
+ 	<h2>Contact Me</h2>
+ 	<p>If you have any questions or feedback, feel free to reach out!</p>
+ <form action="#" method="post">
+ <div class="form-group">
+ 	<label for="name">Your Name:</label>
+ 	<input type="text" id="name" name="name" placeholder="Enter your fullname" required>
+ </div>
+ 	<div class="form-group">
+ 	<label for="email">Your Email:</label>
+ 	<input type="email" id="email" name="email" placeholder="Enter your email" required>
+ </div>
+ 	<div class="form-group">
+ 	<label for="message">Your Message:</label>
+ 	<textarea id="message" name="message" rows="5" placeholder="Your message here..." 
+ 	required></textarea>
+ </div>
+ 	<button type="submit">Send Message</button>
+ </form>
+</section>
+<section id="reflection">
+ 	<h2> Reflection Time: What Did You Learn? </h2>
+ 	<p>Congratulations on finishing this lab! Now it's time to reflect on what you’ve accomplished. 
+ </p>
+ 
+ <div class="reflection-prompts">
+ <div class="prompt">
+ 	<h3>1. What was the most exciting part of building your blog page? </h3>
+ 	<textarea placeholder="Share your thoughts here..."></textarea>
+ </div>
+ <div class="prompt">
+ 	<h3>2. If your blog could come to life, what would it say? </h3>
+ 	<textarea placeholder="Imagine your blog is talking to you..." ></textarea>
+ </div>
+ <div class="prompt">
+	 <h3>3. What was the hardest part of the task? </h3>
+ 	<textarea placeholder="you found challenging!"></textarea>
+ </div>
+ <div class="prompt">
+ 	<h3>4. If you could add one more fun feature to your blog, what would it be? </h3>
+ 	<textarea placeholder="Maybe a funky background or a chatbot? Get creative!"></textarea>
+ </div>
+ </div>
+ 
+ <button onclick="alert('Great job! Your reflections are awesome! ')">Submit Your 
+ 	Reflections</button>
+ </section>
+<footer>
+ <p>&copy; 2025 Mohamad Farhan. All rights reserved.</p>
+</footer>
+</body>
